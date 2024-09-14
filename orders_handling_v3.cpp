@@ -473,7 +473,8 @@ void Shef::Movetoready(Order& order, Order*& destination, int& quant, int& size)
 	calculate_prep_time(order);
 	calcTemp_price(order);
 	order.setStatus(DEL);
-	if(order.isduplicate()==false) losses += order.get_cost();//add to losses
+	losses += order.get_cost();//add to losses
+	order.setdupped(false);
 	destination[size] = order;
 	//std::cout << "\norder succesfully moved from pending to ready \n";
 }
@@ -483,6 +484,7 @@ void Deliveryman::Movetofinished(Order& order, Order*& destination, int& quant, 
 	if (size >= quant) increaseSize(destination, quant);
 
 	order.setStatus(FIN);
+	order.setdupped(false);
 	calculate_fprice(order);
 	destination[size] = order;
 	//std::cout << "\norder succesfully moved from ready to finished \n";
